@@ -12,7 +12,12 @@ class RedisClient {
    */
   constructor() {
     this.client = createClient();
+    this.isRedisConnected = true;
+    this.client.on('connect', () => {
+      this.isRedisConnected = true;
+    });
     this.client.on('error', (error) => {
+      this.isRedisConnected = false;
       console.log(`Redis client not connected to server: ${error}`);
     });
   }
@@ -24,7 +29,7 @@ class RedisClient {
    */
 
   isAlive() {
-    return this.client.connected? true : false; 
+    return this.isRedisConnected; 
   }
 
   /*
@@ -44,8 +49,9 @@ class RedisClient {
    * @param {Number} duration : expiration time of the item in seconds.
    */
   async set(key, value, duration) {
-    await promisify(this.client.set)
-      .bind(this.client)(key, duration, value);
+    const setKey = promisify(this.client.set).bind(this.client);
+    await setKey(key, value);
+    await this.client.expire(key, duration);
   }
 
   /*
@@ -53,9 +59,9 @@ class RedisClient {
    * @param {String} key : key of the item to remove.
    */
   async del(key) {
-    await promisify(this.client.DEL).bind(this.client)(key);
+    await promisify(this.client.del).bind(this.client)(key);
   }
 }
 
 const redisClient = new RedisClient();
-module.export = redisClient;
+module.exports = redisClient;
