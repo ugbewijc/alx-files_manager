@@ -12,5 +12,5 @@
 
 ##### Contributor
 
-- John Chioma Ugbewi <ugbewijc@gmail.com>
-- Dennis Wanjohi <frenol021@gmail.com>
+- [John Chioma Ugbewi](mailto:ugbewijc@gmail.com)
+- [Dennis Wanjohi](mailto:frenol021@gmail.com)
