@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import AppController from '../controllers/AppController';
 import UserController from '../controllers/UserContoller';
+import AuthController from '../controllers/AuthController';
 
 const router = Router();
 
@@ -30,3 +31,6 @@ router.use((request, response, next) => {
 router.get('/status', AppController.getStatus);
 router.get('/stats', AppController.getStats);
 router.post('/users', UserController.postNew);
+router.get('/connect', AuthController.getConnect);
+
+module.exports = router;
