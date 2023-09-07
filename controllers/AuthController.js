@@ -1,7 +1,8 @@
+import sha1 from 'sha1';
 import { Buffer } from 'buffer';
 import { v4 } from 'uuid';
 import redisClient from '../utils/redis';
-import UtilController from './UtilController';
+// import UtilController from './UtilController';
 import dbClient from '../utils/db';
 
 export default class AuthController {
@@ -10,8 +11,9 @@ export default class AuthController {
       const encodeAuthPair = request.headers.authorization.split(' ')[1];
       const decodeAuthPair = Buffer.from(encodeAuthPair, 'base64').toString().split(':');
       const _email = decodeAuthPair[0];
-      const pwd = UtilController.SHA1(decodeAuthPair[1]);
-      const user = await dbClient.filterUser({ email: _email });
+      // const pwd = UtilController.SHA1(decodeAuthPair[1]);
+      const pwd = sha1(decodeAuthPair[1]);
+      const user = await dbClient.usersCollection().findOne({ email: _email });
       if (user.password !== pwd) {
         response.status(401).json({ error: 'Unauthorized' }).end();
       } else {

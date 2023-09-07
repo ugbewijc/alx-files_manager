@@ -5,7 +5,6 @@
 import { createClient } from 'redis';
 import { promisify } from 'util';
 
-
 class RedisClient {
   /*
    *class constructors
@@ -29,7 +28,7 @@ class RedisClient {
    */
 
   isAlive() {
-    return this.isRedisConnected; 
+    return this.isRedisConnected;
   }
 
   /*
